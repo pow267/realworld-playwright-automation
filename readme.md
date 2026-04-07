@@ -21,10 +21,12 @@ Dự án này chứa bộ kịch bản kiểm thử tự động toàn diện (U
 3. Lệnh chạy test cơ sở: `npm test`
 4. Lệnh chạy chu trình test toàn diện (bao gồm xóa dữ liệu cũ và tổng hợp lại báo cáo): `npm run full-test`
 5. Xem lại báo cáo định dạng HTML: `npm run allure:serve`
+
 ## Kế hoạch và Kịch bản Kiểm thử (Test Plan & Test Cases)
 
 ### 1. Phạm vi kiểm thử (Scope)
 - **API Testing**: Kiểm thử các Endpoints cốt lõi (Authentication, User Management, Database Restore).
+
 - **UI Testing**: Các luồng End-to-End từ giao diện (Đăng ký, Đăng nhập, Quản lý Article CRUD).
 
 ### 2. Danh sách Test Cases tiêu biểu
@@ -32,11 +34,13 @@ Dự án này chứa bộ kịch bản kiểm thử tự động toàn diện (U
   - TC_01.1: Đăng nhập thành công, sinh session token (lưu qua fixture).
   - TC_01.2: Hiển thị lỗi tường minh khi sai thông tin đăng nhập.
   - TC_01.3: Đăng ký tạo người thủ thành công.
+
 - **TS_02: Quản lý Bài Viết (Article CRUD)**
   - TC_02.1: Viết và đăng xuất bản một bài viết mới thành công.
   - TC_02.2: Bắt lỗi chặn Duplicate Title từ backend khi tạo bài trùng lặp.
   - TC_02.3: Mở form Edit và cập nhật dữ liệu của bài viết cũ.
   - TC_02.4: Xác nhận hộp thoại Dialog khi Xóa bài viết và đảm bảo data bị gỡ khỏi UI.
+
 - **TS_03: Kiểm thử Backend API**
   - TC_03.1: Khôi phục CSDL nền (`/api/restore`) thành không trước mỗi luồng chạy giả lập.
   - TC_03.2: Đảm bảo mã trả về 200 OK trên các API bảo vệ hợp lệ (gắn JWT headers).
