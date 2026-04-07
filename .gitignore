@@ -5,14 +5,14 @@ yarn-debug.log*
 yarn-error.log*
 
 # Playwright
-/test-results/
-/playwright-report/
-/playwright/.cache/
-/blob-report/
+test-results/
+playwright-report/
+playwright/.cache/
+blob-report/
 
 # Allure Reports
-/allure-results/
-/allure-report/
+allure-results/
+allure-report/
 
 # Environment variables
 .env
