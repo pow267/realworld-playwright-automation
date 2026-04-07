@@ -25,7 +25,8 @@ export default defineConfig({
 
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
   reporter: [
-    ['html'],
+    ['list'],
+    ['html', { open: 'never' }],
     ['allure-playwright', { outputFolder: 'allure-results' }],
   ],
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
@@ -35,6 +36,15 @@ export default defineConfig({
 
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: 'on-first-retry',
+
+    /* Cấu hình Screenshot và Video  */
+    screenshot: 'only-on-failure',
+    video: 'retain-on-failure',
+
+    /* THÊM VÀO ĐÂY: Làm chậm tốc độ gõ/click (500ms mỗi thao tác) để video dễ xem hơn */
+    //launchOptions: {
+    //  slowMo: 500, // Thay đổi con số này (tính bằng mili-giây) tùy ý bạn
+    //},
   },
 
   /* Configure projects for major browsers */

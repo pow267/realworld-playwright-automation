@@ -149,6 +149,7 @@ test.describe('Kiểm tra chức năng Articles', () => {
         await expect(page).toHaveURL(`#/article/${slugA}`);
 
         const ArticleB = ArticlesData();
+        expect(ArticleA.article.title).not.toBe(ArticleB.article.title);
         await articlePage.gotoCreateNewArticle();
         await expect(page).toHaveURL('#/editor');
         await articlePage.fillCreateNewArticle(ArticleB.article.title, ArticleB.article.description, ArticleB.article.body, ArticleB.article.tagList);
@@ -182,7 +183,7 @@ test.describe('Kiểm tra chức năng Articles', () => {
 
         await articlePage.fillComment('Test Comment');
         await articlePage.postComment();
-        await expect(articlePage.commentSuccess).toHaveText('Test Comment');
+        await expect(articlePage.commentCard).toHaveText('Test Comment');
 
     });
 

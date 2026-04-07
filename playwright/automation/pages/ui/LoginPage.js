@@ -7,7 +7,7 @@ export class LoginPage {
         this.passwordInput = this.page.getByRole('textbox', { name: 'Password' });
         this.loginButton = this.page.getByRole('button', { name: 'Login' });
         this.success = this.page.getByRole('button', { name: 'Your Feed' });
-        this.menuProfile = this.page.getByRole('banner').getByText('Tester');
+        this.menuProfile = this.page.locator('.user-pic')
         this.logoutButton = this.page.getByRole('link', { name: 'Logout' });
     }
     async goto() {
@@ -27,8 +27,12 @@ export class LoginPage {
         await this.loginButton.click();
     }
 
-    async logout() {
+    async openMenuProfile() {
         await this.menuProfile.click();
+    }
+
+    async logout() {
+        await this.openMenuProfile();
         await this.logoutButton.click();
     }
 }
