@@ -1,0 +1,90 @@
+services:
+  db:
+    image: postgres:15-alpine
+    container_name: realworld-db
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: ${DEV_DB_PASSWORD:-123456}
+      POSTGRES_DB: database_development
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d database_development"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  backend:
+    build:
+      context: ./conduit-realworld-example-app
+      dockerfile: ../docker/backend.dockerfile
+    container_name: realworld-backend
+    ports:
+      - "3001:3001"
+    environment:
+      - PORT=3001
+      - DEV_DB_USERNAME=postgres
+      - DEV_DB_PASSWORD=${DEV_DB_PASSWORD:-123456}
+      - DEV_DB_NAME=database_development
+      - DEV_DB_HOSTNAME=db
+      - DEV_DB_DIALECT=postgres
+    depends_on:
+      db:
+        condition: service_healthy
+    env_file:
+      - ./conduit-realworld-example-app/.env
+    healthcheck:
+      test: ["CMD-SHELL", "wget -qO- http://localhost:3001/ >/dev/null 2>&1 || exit 1"]
+      interval: 5s
+      timeout: 5s
+      retries: 12
+
+  frontend:
+    build:
+      context: ./conduit-realworld-example-app
+      dockerfile: ../docker/frontend.dockerfile
+    container_name: realworld-frontend
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=development
+    depends_on:
+      - backend
+
+  web-init:
+    image: curlimages/curl:8.7.1
+    container_name: realworld-web-init
+    depends_on:
+      backend:
+        condition: service_healthy
+      frontend:
+        condition: service_started
+    command:
+      - sh
+      - -c
+      - >
+        until curl -sS http://frontend:3000/ >/dev/null; do
+          echo "Waiting for frontend...";
+          sleep 2;
+        done;
+        echo "Calling /api/reset...";
+        curl -fsS http://backend:3001/api/reset;
+        echo "Calling /api/seed...";
+        curl -fsS http://backend:3001/api/seed;
+
+  playwright:
+    build:
+      context: ./playwright
+      dockerfile: ../docker/playwright.dockerfile
+    container_name: realworld-playwright
+    environment:
+      - BASE_URL=http://frontend:3000
+    depends_on:
+      - frontend
+      - web-init
+
+volumes:
+  postgres_data:

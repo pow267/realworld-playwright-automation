@@ -1,0 +1,42 @@
+
+Running 2 tests using 2 workers
+
+[1A[2K[1/2] [firefox] › automation\tests\ui\article.spec.js:145:5 › Kiểm tra chức năng Articles › ArticleUI-TC11: Update bài viết thất bại vì trùng tên title của bài khác
+[1A[2K[2/2] [chromium] › automation\tests\ui\article.spec.js:145:5 › Kiểm tra chức năng Articles › ArticleUI-TC11: Update bài viết thất bại vì trùng tên title của bài khác
+[1A[2K  1) [chromium] › automation\tests\ui\article.spec.js:145:5 › Kiểm tra chức năng Articles › ArticleUI-TC11: Update bài viết thất bại vì trùng tên title của bài khác 
+
+    TypeError: Cannot read properties of undefined (reading 'title')
+
+      167 |         const res = await page.request.get(`api/articles/${slug}`);
+      168 |         const body = await res.json();
+    > 169 |         expect(body.article.title).toBe(dataCreate.article.title);
+          |                             ^
+      170 |         expect(body.article.description).toBe(dataCreate.article.description);
+      171 |         expect(body.article.body).toBe(dataCreate.article.body);
+      172 |
+        at C:\Users\Asus\Hutech\.LuyenTap\reallword - automation - test case\playwright\automation\tests\ui\article.spec.js:169:29
+
+    Error Context: test-results\ui-article-Kiểm-tra-chức-n-7e915-rùng-tên-title-của-bài-khác-chromium\error-context.md
+
+
+[1A[2K  2) [firefox] › automation\tests\ui\article.spec.js:145:5 › Kiểm tra chức năng Articles › ArticleUI-TC11: Update bài viết thất bại vì trùng tên title của bài khác 
+
+    TypeError: Cannot read properties of undefined (reading 'title')
+
+      167 |         const res = await page.request.get(`api/articles/${slug}`);
+      168 |         const body = await res.json();
+    > 169 |         expect(body.article.title).toBe(dataCreate.article.title);
+          |                             ^
+      170 |         expect(body.article.description).toBe(dataCreate.article.description);
+      171 |         expect(body.article.body).toBe(dataCreate.article.body);
+      172 |
+        at C:\Users\Asus\Hutech\.LuyenTap\reallword - automation - test case\playwright\automation\tests\ui\article.spec.js:169:29
+
+    Error Context: test-results\ui-article-Kiểm-tra-chức-n-7e915-rùng-tên-title-của-bài-khác-firefox\error-context.md
+
+
+[1A[2K  2 failed
+    [chromium] › automation\tests\ui\article.spec.js:145:5 › Kiểm tra chức năng Articles › ArticleUI-TC11: Update bài viết thất bại vì trùng tên title của bài khác 
+    [firefox] › automation\tests\ui\article.spec.js:145:5 › Kiểm tra chức năng Articles › ArticleUI-TC11: Update bài viết thất bại vì trùng tên title của bài khác 
+
+[36m  Serving HTML report at http://localhost:63992. Press Ctrl+C to quit.[39m
