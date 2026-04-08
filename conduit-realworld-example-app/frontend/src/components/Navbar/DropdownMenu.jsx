@@ -10,6 +10,7 @@ function DropdownMenu() {
   const { username, image } = loggedUser || {};
 
   const logout = () => {
+    setDropdown(false);
     setAuthState(userLogout);
   };
 
@@ -17,30 +18,46 @@ function DropdownMenu() {
     setDropdown((prev) => !prev);
   };
 
+  const closeDropdown = () => {
+    setDropdown(false);
+  };
+
   return (
-    <li className="nav-item dropdown">
+    <li className={`nav-item dropdown ${dropdown ? "open" : ""}`.trim()}>
       <div
         className="nav-link dropdown-toggle cursor-pointer"
         onClick={handleClick}
       >
         <Avatar alt={username} className="user-pic" src={image} />
         {username}
+        <i className="ion-chevron-down dropdown-caret" aria-hidden="true"></i>
       </div>
 
       <div
         className="dropdown-menu"
         style={{ display: dropdown ? "block" : "none" }}
-        onMouseLeave={handleClick}
+        onMouseLeave={closeDropdown}
       >
         <DropdownItem
           icon="ion-person"
           text="Profile"
           url={`/profile/${username}`}
           state={loggedUser}
+          handler={closeDropdown}
         />
-        <DropdownItem icon="ion-gear-a" text="Settings" url="/settings" />
+        <DropdownItem
+          icon="ion-gear-a"
+          text="Settings"
+          url="/settings"
+          handler={closeDropdown}
+        />
         <div className="dropdown-divider"></div>
-        <DropdownItem icon="ion-log-out" text="Logout" handler={logout} />
+        <DropdownItem
+          icon="ion-log-out"
+          text="Logout"
+          handler={logout}
+          className="dropdown-item-danger"
+        />
       </div>
     </li>
   );

@@ -1,17 +1,24 @@
-.pagination {
-  display: flex;
-  justify-content: center;
-}
-
 header {
   top: 0;
   position: sticky;
-  background-color: #fff;
-  z-index: 1;
+  z-index: 20;
+  padding: 16px 0 0;
 }
 
 button:focus {
   outline: 0 !important;
+}
+
+body {
+  min-width: 320px;
+}
+
+#root {
+  min-height: 100vh;
+}
+
+main {
+  flex: 1;
 }
 
 .cursor-pointer {
@@ -25,4 +32,10 @@ button:focus {
   align-items: center;
   justify-content: center;
   flex-direction: column;
+}
+
+@media (max-width: 767px) {
+  header {
+    padding-top: 12px;
+  }
 }
