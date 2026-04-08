@@ -44,7 +44,7 @@ export function InvalidArticlesDataAPI() {
 export function NegativeArticles() {
     return {
         article: {
-            title: `Lorem Ipsum 1`,
+            title: `Tester 1`,
             description: "Description of the new article",
             body: "Body of the new article",
             tagList: ["newe", "articlea"]

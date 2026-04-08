@@ -39,6 +39,7 @@ const allArticles = async (req, res, next) => {
           ...(author && { where: { username: author } }),
         },
       ],
+      distinct: true,
       limit: parseInt(limit),
       offset: offset * limit,
       order: [["createdAt", "DESC"]],
@@ -129,6 +130,7 @@ const articlesFeed = async (req, res, next) => {
 
     const articles = await Article.findAndCountAll({
       include: includeOptions,
+      distinct: true,
       limit: parseInt(limit),
       offset: offset * limit,
       order: [["createdAt", "DESC"]],

@@ -16,4 +16,13 @@ router.get("/", async (req, res, next) => {
   }
 });
 
+router.get("/raw", async (req, res, next) => {
+  try {
+    const tagList = await Tag.findAll();
+    res.json({ tags: tagList });
+  } catch (error) {
+    next(error);
+  }
+});
+
 module.exports = router;

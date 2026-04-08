@@ -1,5 +1,3 @@
-import { title } from "node:process";
-
 export class ArticlesPage {
     constructor(page) {
         this.page = page;
@@ -20,9 +18,15 @@ export class ArticlesPage {
         this.commentCard = this.page.locator('.card').locator('.card-text');
         this.yourFeedButton = this.page.locator('.nav nav-pills outline-active').locator('.nav-link');
         this.globalFeedButton = this.page.getByRole('button', { name: 'Global Feed' });
-        this.previewLink = this.page.locator('.article-preview .preview-link').first();
+        this.previewLink = this.page.locator('.article-preview .preview-link');
+        this.previewTitles = this.page.locator('.article-preview .preview-link h1');
         this.favoriteButton = this.page.locator('.article-preview').first().locator('button.btn-outline-primary');
         this.unFavoriteButton = this.page.locator('.article-preview').first().locator('button.active');
+        this.nextPageButton = this.page.getByRole('button', { name: 'Next page' });
+    }
+
+    async nextPage() {
+        await this.nextPageButton.click();
     }
 
     async goto() {

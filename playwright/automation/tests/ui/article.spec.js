@@ -162,13 +162,21 @@ test.describe('Kiểm tra chức năng Articles', () => {
         await articlePage.gotoEdit();
         await expect(page).toHaveURL(`#/editor/${slugB}`);
         await articlePage.fillUpdateArticle(ArticleA.article.title, ArticleB.article.description, ArticleB.article.body, ArticleB.article.tagList);
+
+        const updateRes = page.waitForResponse(resp =>
+            resp.url().includes(`/api/articles/${slugB}`) &&
+            ['PUT', 'PATCH'].includes(resp.request().method())
+        );
         await articlePage.publishUpdate();
+        const updateResponse = await updateRes;
+        expect(updateResponse.ok(), 'API phải từ chối cập nhật trùng title').toBeFalsy();
+
         await expect(page).toHaveURL(`#/editor/${slugB}`);
         await expect(articlePage.updateArticlesButton).toBeVisible();
 
         const res = await page.request.get(`api/articles/${slugB}`);
         const body = await res.json();
-        expect(body.article.title).toBe(ArticleB.article.title);
+        expect(body.article.title, 'Article title should remain unchanged when updating with duplicate title').toBe(ArticleB.article.title);
         expect(body.article.description).toBe(ArticleB.article.description);
         expect(body.article.body).toBe(ArticleB.article.body);
 
@@ -225,7 +233,7 @@ test.describe('Kiểm tra chức năng Articles', () => {
         await articlePage.goto();
         await articlePage.globalFeed();
         await page.waitForLoadState('load');
-        await expect(articlePage.previewLink).toBeVisible();
+        await expect(articlePage.previewLink.first()).toBeVisible();
         await articlePage.addFavorite(data.article.title);
         await expect(articlePage.unFavoriteButton).toContainText('1');
     });
@@ -241,11 +249,46 @@ test.describe('Kiểm tra chức năng Articles', () => {
         await articlePage.goto();
         await articlePage.globalFeed();
         await page.waitForLoadState('load');
-        await expect(articlePage.previewLink).toBeVisible();
+        await expect(articlePage.previewLink.first()).toBeVisible();
         await articlePage.addFavorite(data.article.title);
         await expect(articlePage.unFavoriteButton).toContainText('1');
 
         await articlePage.unFavorite(data.article.title);
         await expect(articlePage.favoriteButton).toContainText('0');
+    });
+
+    test('ArticleUI-TC17: Xem danh sách Articles trong Global Feed và chuyển trang', async ({ page }) => {
+        await articlePage.goto();
+        await articlePage.globalFeed();
+
+        await expect(articlePage.previewLink.first()).toBeVisible();
+
+        const seenTitles = new Set();
+
+        while (await articlePage.nextPageButton.isVisible()) {
+            const count = await articlePage.previewTitles.count();
+            expect(count).toBeGreaterThan(0);
+            expect(count, 'Số bài viết trong 1 trang phải nhỏ hơn hoặc bằng 3').toBeLessThanOrEqual(3);
+
+            for (let i = 0; i < count; i++) {
+                const title = (await articlePage.previewTitles.nth(i).textContent())?.trim();
+                expect(title, 'Mỗi article phải có title').toBeTruthy();
+                expect(seenTitles.has(title),`Title bị lặp trong Global Feed: ${title}`).toBeFalsy();
+                seenTitles.add(title);
+            }
+
+            await articlePage.nextPage();
+        }
+
+        const finalCount = await articlePage.previewTitles.count();
+        expect(finalCount).toBeGreaterThan(0);
+        expect(finalCount, 'Số bài viết trong 1 trang phải nhỏ hơn hoặc bằng 3').toBeLessThanOrEqual(3);
+
+        for (let i = 0; i < finalCount; i++) {
+            const title = (await articlePage.previewTitles.nth(i).textContent())?.trim();
+            expect(title, 'Mỗi article phải có title').toBeTruthy();
+            expect(seenTitles.has(title),`Title bị lặp trong Global Feed: ${title}`).toBeFalsy();
+            seenTitles.add(title);
+        }
     });
 });
