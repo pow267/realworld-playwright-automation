@@ -73,7 +73,7 @@ test.describe('Kiểm tra Article API', () => {
             const resCreate = await articlesAPI.post(userToken, data.article.title, data.article.description, data.article.body, data.article.tagList);
             const body = await resCreate.json();
             const resUpdate = await articlesAPI.update(userToken, body.article.slug, Invaliddata.article.title, Invaliddata.article.description, Invaliddata.article.body, Invaliddata.article.tagList);
-            expect(resUpdate.status()).toBe(422);
+            expect(resUpdate.status(), `"${Invaliddata.case}" phải trả về 422`).toBe(422);
         });
     }
 
@@ -83,7 +83,7 @@ test.describe('Kiểm tra Article API', () => {
         const body = await res.json();
         const dataUpdate = NegativeArticlesDataUpdate();
         const resUpdate = await articlesAPI.update(userToken, body.article.slug, dataUpdate.article.title, dataUpdate.article.description, dataUpdate.article.body, dataUpdate.article.tagList);
-        expect(resUpdate.status()).toBe(422);
+        expect(resUpdate.status(), `"ArticleAPI-TC11: Cập nhật Articles có title trùng lặp" phải trả về 422`).toBe(422);
     });
 
     test('ArticleAPI-TC13: Kiểm tra lại Article đã post có tồn tại không', async ({ userToken }) => {

@@ -5,7 +5,8 @@ const { User } = require("../models");
 module.exports = {
   async up(queryInterface, Sequelize) {
     console.log("I AM IN THE SEEDER!");
-    const users = await User.findAll();
+    const allUsers = await User.findAll();
+    const users = allUsers.filter(user => user.email !== 'user@gmail.com');
     const articlesPerUser = 15;
 
     const articles = users.flatMap((user) =>

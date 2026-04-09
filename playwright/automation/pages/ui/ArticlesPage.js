@@ -17,12 +17,25 @@ export class ArticlesPage {
         this.removeCommentButton = this.page.locator('.card-footer').locator('.ion-trash-a');
         this.commentCard = this.page.locator('.card').locator('.card-text');
         this.yourFeedButton = this.page.locator('.nav nav-pills outline-active').locator('.nav-link');
-        this.globalFeedButton = this.page.getByRole('button', { name: 'Global Feed' });
-        this.previewLink = this.page.locator('.article-preview .preview-link');
-        this.previewTitles = this.page.locator('.article-preview .preview-link h1');
-        this.favoriteButton = this.page.locator('.article-preview').first().locator('button.btn-outline-primary');
-        this.unFavoriteButton = this.page.locator('.article-preview').first().locator('button.active');
+        this.globalFeedButton = this.page.getByRole('button', { name: 'Global Feed' })
+        this.favoriteButton = this.page.locator('button');
         this.nextPageButton = this.page.getByRole('button', { name: 'Next page' });
+        this.previewArticle = this.page.locator('.article-preview');
+        this.previewArticleLink = this.page.locator('.preview-link');
+        this.favoriteButtonMeta = this.page.locator('.article-meta button:has(.ion-heart)');
+        this.paginationItems = this.page.locator('.pagination li');
+    }
+
+    async goToPage(pageNumber) {
+        await this.page.locator('.pagination .page-link').filter({ hasText: new RegExp(`^${pageNumber}$`) }).click();
+    }
+
+    getArticle(title) {
+        return this.page.locator('.article-preview').filter({ has: this.page.locator('h1', { hasText: title }) });
+    }
+
+    getFavoriteButton(article) {
+        return article.locator('button.btn-outline-primary');
     }
 
     async nextPage() {
@@ -48,6 +61,15 @@ export class ArticlesPage {
     async unFavorite() {
         await this.unFavoriteButton.click();
     }
+
+    async addFavoriteMeta() {
+        await this.favoriteMetaButton.click();
+    }
+
+    async unFavoriteMeta() {
+        await this.unFavoriteMetaButton.click();
+    }
+
 
     async removeComment() {
         this.page.once('dialog', dialog => dialog.accept());

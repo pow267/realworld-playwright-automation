@@ -16,14 +16,25 @@ module.exports = {
         updatedAt: new Date(),
       }));
 
-    // Thêm tài khoản theo yêu cầu của bạn (Cũng đã mã hóa)
-    users.push({
-      username: "Tester",
-      email: "test@gmail.com",
-      password: hashedPassword,
-      createdAt: new Date(),
-      updatedAt: new Date(),
-    });
+    // Thêm các tài khoản theo yêu cầu (Cũng đã mã hóa)
+    const extraUsers = [
+      {
+        username: "Tester",
+        email: "test@gmail.com",
+        password: hashedPassword,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+      {
+        username: "user",
+        email: "user@gmail.com",
+        password: hashedPassword,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      }
+    ];
+
+    users.push(...extraUsers);
 
     await queryInterface.bulkInsert("Users", users, {});
   },

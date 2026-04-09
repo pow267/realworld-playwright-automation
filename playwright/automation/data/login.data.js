@@ -2,6 +2,10 @@ export function LoginData() {
     return { email: 'test@gmail.com', password: '123456' }
 }
 
+export function userLoginData() {
+    return { email: 'user@gmail.com', password: '123456' }
+}
+
 export function InvalidLoginAPI() {
     return [
         { case: 'LoginAPI-TC02: Đăng nhập khi Email bỏ trống', email: '', password: '123456' },

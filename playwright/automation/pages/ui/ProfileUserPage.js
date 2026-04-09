@@ -8,7 +8,10 @@ export class ProfileUserPage {
         this.emailInput = this.page.getByRole('textbox', { name: 'Email' });
         this.passwordInput = this.page.getByRole('textbox', { name: 'Password' });
         this.updateButton = this.page.getByRole('button', { name: 'Update Settings' });
+        this.favoritedArticlesLink = this.page.getByRole('link', { name: 'Favorited Articles' });
+        this.listArticle = this.page.locator('.article-preview');
     }
+
     async goto() {
         await this.page.goto('/#');
     }
@@ -32,5 +35,9 @@ export class ProfileUserPage {
 
     async updateProfile() {
         await this.updateButton.click();
+    }
+
+    async favoriteProfile() {
+        await this.favoritedArticlesLink.click();
     }
 }
