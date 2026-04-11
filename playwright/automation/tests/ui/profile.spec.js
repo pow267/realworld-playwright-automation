@@ -178,13 +178,18 @@ test.describe('Kiểm tra chức năng Profiles', () => {
         await profileUserPage.gotoProfile();
         await expect(page).toHaveURL(`#/profile/${data.username}`);
         await expect(page.getByRole('heading', { name: `${data.username}` })).toBeVisible();
+        await expect(page.locator(`text=Loading ${data.username} articles...`)).toBeHidden();
+        await expect(page.locator(`text=${data.username} doesn't have favorites.`)).toBeHidden();
 
         await profileUserPage.favoriteProfile();
         await expect(profileUserPage.listArticle).toBeVisible();
         await expect(profileUserPage.listArticle).not.toContainText(`${data.username} doesn't have favorites.`);
+        await expect(page.locator(`text=Loading ${data.username} favorites articles...`)).toBeHidden();
 
-        await profileUserPage.listArticle.first().click();
-        await expect(page).toHaveURL(/article/);
+        await Promise.all([
+            page.waitForURL(/article/),
+            profileUserPage.listArticle.locator('.preview-link').first().click()
+        ]);
 
         await likeButton.click();
         await expect(likeButton).toHaveText(new RegExp(`${before}`));
