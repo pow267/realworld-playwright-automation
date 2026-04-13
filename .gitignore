@@ -12,7 +12,9 @@ blob-report/
 
 # Allure Reports
 allure-results/
-allure-report/
+playwright/allure-results/
+playwright/allure-report/*
+!playwright/allure-report/history/
 
 # Environment variables
 
