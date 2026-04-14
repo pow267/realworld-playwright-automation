@@ -57,7 +57,8 @@ Mục tiêu:
 * Test được thiết kế:
 * Độc lập (independent)
 * Có thể chạy song song (parallel execution)
-* Reset data trước test bằng API `/api/restore`
+* Reset data trước test bằng API `/api/reset`
+* Seed data trước test bằng API `/api/seed`
 
 
 ## Hướng dẫn chạy hệ thống Web (Local/Docker)
