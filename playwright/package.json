@@ -8,10 +8,12 @@
     "test": "npx playwright test",
     "test-ui": "npx playwright test --ui",
     "save-history": "if exist allure-report\\history (xcopy /E /I /Y allure-report\\history allure-results\\history)",
-    "allure:generate": "npm run save-history && npx allure generate allure-results --clean -o allure-report",
-    "allure:open": "npx allure open allure-report",
+    "allure:generate": "npx allure generate allure-results --clean -o allure-report",
+    "allure:open": "npm run kill:allure && npx allure serve allure-results --port 5050",
     "report": "npm run save-history && npx allure serve allure-results",
-    "full-test": "npm run clean:results && (npm run test || echo. ) && npm run allure:generate && npm run allure:open"
+    "kill:allure": "taskkill /F /IM java.exe >nul 2>&1 || echo no java",
+    "clean:report": "if exist allure-report (rd /s /q allure-report)",
+    "full-test": "npm run clean:results && npm run clean:report && npm run kill:allure && (npm run test || echo.) && npm run allure:generate && npm run allure:open"
   },
   "keywords": [],
   "author": "",

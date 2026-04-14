@@ -26,7 +26,6 @@ export default defineConfig({
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
   reporter: [
     ['list'],
-    ['html', { open: 'never' }],
     ['allure-playwright', { outputFolder: 'allure-results' }],
   ],
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
@@ -35,7 +34,7 @@ export default defineConfig({
     baseURL: process.env.BASE_URL || 'http://localhost:3000/',
 
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
-    trace: 'on-first-retry',
+    trace: 'retain-on-failure',
 
     /* Cấu hình Screenshot và Video  */
     screenshot: 'only-on-failure',
@@ -80,8 +79,8 @@ export default defineConfig({
     //   use: { ...devices['Desktop Edge'], channel: 'msedge' },
     // },
     {
-       name: 'Google Chrome',
-       use: { ...devices['Desktop Chrome'], channel: 'chrome' },
+      name: 'Google Chrome',
+      use: { ...devices['Desktop Chrome'], channel: 'chrome' },
     },
   ],
 
