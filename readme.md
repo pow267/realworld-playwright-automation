@@ -9,6 +9,8 @@ Dự án này chứa bộ kịch bản kiểm thử tự động toàn diện (U
 - `/data`: Vị trí quản lý dữ liệu kiểm thử tĩnh.
 - `/fixtures`: Các pre-conditions (như xác thực session token và thiết lập trạng thái DB trước mỗi ca test).
 - `/allure-report`: Kết quả báo cáo sau khi chạy bộ test.
+- `/bug-report`: Vị trí tài liệu báo cáo lỗi.
+- `Test-plan-test-case-manual`: Vị trí tài liệu test plan và test case của manual testing.
 
 ### AUTOMATION TEST PLAN
 
